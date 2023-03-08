@@ -1,23 +1,68 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import {BsChevronCompactLeft, BsChevronCompactRight} from 'react-icons/bs';
+import {RxDotFilled} from 'react-icons/rx';
 
 function App() {
+  const slides = [
+    {
+      url: 'https://images.unsplash.com/photo-1610374792793-f016b77ca51a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1610374792793-f016b77ca51a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1590649681928-4b179f773bd5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1579389083046-e3df9c2b3325?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1563461660947-507ef49e9c47?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80',
+    },
+  ];
+
+  const prevSlide = () => {
+    const isFirstSlide = currentIndex ===0;
+    const newIndex = isFirstSlide ? slides.length-1 : currentIndex -1;
+    setCurrentIndex(newIndex);
+  }
+
+  const nextSlide = () => {
+    const isLastSlide = currentIndex===slides.length-1;
+    const newIndex = isLastSlide? 0 : currentIndex + 1;
+    setCurrentIndex(newIndex);
+    
+  }
+
+  const goToSlide = (slideIndex) => {
+    setCurrentIndex(slideIndex);
+
+  }
+
+
+const [currentIndex, setCurrentIndex] = useState(0);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='max-w-[1400] h-[780px] w-full m-auto py-16 px-4 relative group'>
+      <div style={{backgroundImage: `url(${slides[currentIndex].url})`}} className='w-full h-full rounded-2xl bg-center bg-cover duration-500'></div>
+      {/*Left arrow */}
+    <div className=' hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
+      <BsChevronCompactLeft onClick={prevSlide} size={30}/>
+    </div>
+       {/*Right arrow */}
+       <div className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
+       <BsChevronCompactRight onClick={nextSlide} size={30}/>
+       </div>
+       <div className='flex top-4 justify-center py-2'>
+          {slides.map((slide, slideIndex) => (
+            <div key={slideIndex} onClick={() => goToSlide(slideIndex)} className='text-2xl cursor-pointer'>
+               <RxDotFilled/>
+            </div>
+          ))}
+       </div>
     </div>
   );
 }
